@@ -15,7 +15,7 @@
  */
 package io.microanut.quartz;
 
-import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -25,15 +25,9 @@ import javax.inject.Singleton;
 @Factory
 public class QuartzFactory {
 
-    private QuartzConfiguration configuration;
-
-    public void createScheduler(QuartzConfiguration configuration) {
-        this.configuration = configuration;
-    }
-
     @Singleton
-    @Bean(preDestroy = "close")
-    public Scheduler scheduler() throws SchedulerException {
-        return this.configuration.getBuilder().getScheduler();
+    @EachBean(QuartzConfiguration.class)
+    public Scheduler scheduler(QuartzConfiguration configuration) throws SchedulerException {
+        return configuration.getBuilder().getScheduler();
     }
 }

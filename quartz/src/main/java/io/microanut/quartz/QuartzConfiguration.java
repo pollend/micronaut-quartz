@@ -15,10 +15,9 @@
  */
 package io.microanut.quartz;
 
-import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.core.io.ResourceResolver;
 import org.quartz.SchedulerException;
-import org.quartz.core.QuartzScheduler;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +31,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
 
-@ConfigurationProperties(QuartzConfiguration.PREFIX)
+@EachProperty(value = QuartzConfiguration.PREFIX, primary = "default")
 public class QuartzConfiguration {
     public static final String PREFIX = "quartz.client";
     private static final String DEFAULT_CONFIG_FILE = "classpath:quartz.properties";
