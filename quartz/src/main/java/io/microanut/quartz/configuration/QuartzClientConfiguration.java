@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.microanut.quartz;
+package io.microanut.quartz.configuration;
 
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.core.io.ResourceResolver;
@@ -31,17 +31,17 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
 
-@EachProperty(value = QuartzConfiguration.PREFIX, primary = "default")
-public class QuartzConfiguration {
-    public static final String PREFIX = "quartz.client";
-    private static final String DEFAULT_CONFIG_FILE = "classpath:quartz.properties";
+@EachProperty(value = QuartzClientConfiguration.PREFIX, primary = "default")
+public class QuartzClientConfiguration {
+    public static final String PREFIX = "quartz.clients";
+    private static final String DEFAULT_CONFIG_FILE = "classpath:io.microanut.quartz.properties";
 
-    private static final Logger LOG = LoggerFactory.getLogger(QuartzConfiguration.class);
+    private static final Logger LOG = LoggerFactory.getLogger(QuartzClientConfiguration.class);
 
     private String configFile = DEFAULT_CONFIG_FILE;
     private ResourceResolver resourceResolver;
 
-    public QuartzConfiguration(ResourceResolver resourceResolver) {
+    public QuartzClientConfiguration(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
     }
 
@@ -58,7 +58,7 @@ public class QuartzConfiguration {
         Optional<URL> configResource = resourceResolver.getResource(configFile);
         if(configResource.isPresent()) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Reading quartz configuration from file: {}", configFile);
+                LOG.debug("Reading io.microanut.quartz configuration from file: {}", configFile);
             }
             Properties properties = new Properties();
             try (Reader r = new FileReader(Paths.get(configResource.get().toURI()).toFile())) {
