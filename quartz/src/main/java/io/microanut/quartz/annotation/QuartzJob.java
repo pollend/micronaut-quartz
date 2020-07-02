@@ -37,5 +37,16 @@ public @interface QuartzJob {
 
     String value() default "default";
 
+    /**
+     * job is going to be scheduled
+     *
+     * @return
+     */
+    boolean schedule() default false;
+
+    /**
+     * target job for that will be used to schedule the job
+     * @return
+     */
     Class<? extends Job> target();
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2020 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.microanut.quartz.intercept;
 
 import io.microanut.quartz.annotation.QuartzJob;
@@ -16,11 +31,11 @@ import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -35,19 +50,18 @@ public class QuartzJobIntroductionAdvice implements MethodInterceptor<Object,Obj
     @Override
     public Object intercept(MethodInvocationContext<Object, Object> context) {
         if (context.hasAnnotation(QuartzJob.class)) {
-            AnnotationValue<QuartzJob> job = context.findAnnotation(QuartzJob.class).orElseThrow(() -> new IllegalStateException("No @KafkaClient annotation present on method: " + context));
+            AnnotationValue<QuartzJob> jobAnnotation = context.findAnnotation(QuartzJob.class).orElseThrow(() -> new IllegalStateException("No @KafkaClient annotation present on method: " + context));
 
-            String client = job.stringValue("value").orElse("default");
-            Class<? extends Job> classz = (Class<? extends Job>) job.classValue("target").orElseThrow(() -> new IllegalStateException("No Target Job provided"));
+            String client = jobAnnotation.stringValue("value").orElse("default");
+            boolean isScheduled = jobAnnotation.booleanValue("schedule").orElse(false);
+            Class<? extends Job> classz = (Class<? extends Job>) jobAnnotation.classValue("target").orElseThrow(() -> new IllegalStateException("No Target Job provided"));
             JobBuilder jobBuilder = JobBuilder.newJob(classz);
-            TriggerBuilder triggerBuilder = newTrigger();
-
-
+            Optional<Trigger> trigger = Optional.empty();
             Scheduler scheduler = beanContext.findBean(Scheduler.class, Qualifiers.byName(client)).orElseThrow(() -> new IllegalStateException("Unknown Scheduler by name: " + client));
 
             Argument[] arguments = context.getArguments();
             Object[] parameterValues = context.getParameterValues();
-            Map<String, Object> jobData = new HashMap<String, Object>();
+            Map<String, Object> jobData = new HashMap<>();
             for (int i = 0; i < arguments.length; i++) {
                 Argument argument = arguments[i];
                 if (argument.isAnnotationPresent(QuartzKey.class)) {
@@ -58,13 +72,24 @@ public class QuartzJobIntroductionAdvice implements MethodInterceptor<Object,Obj
                     jobData.put(name, parameterValues[i]);
                 } else if (!argument.isContainerType() && JobKey.class.isAssignableFrom(argument.getFirstTypeVariable().orElse(Argument.OBJECT_ARGUMENT).getType())) {
                     jobBuilder.withIdentity((JobKey) parameterValues[i]);
-                } else if(!argument.isContainerType() && Trigger.class.isAssignableFrom(argument.getFirstTypeVariable().orElse(Argument.OBJECT_ARGUMENT).getType())){
-
+                } else if (!argument.isContainerType() && Trigger.class.isAssignableFrom(argument.getFirstTypeVariable().orElse(Argument.OBJECT_ARGUMENT).getType())) {
+                    trigger = Optional.of((Trigger) parameterValues[i]);
                 }
             }
-            jobBuilder.setJobData(new JobDataMap(jobData));
+            if (jobData.size() == 0) {
+                jobBuilder.setJobData(new JobDataMap(jobData));
+            }
+
             try {
-                scheduler.scheduleJob(jobBuilder.build(), triggerBuilder.build());
+                if (isScheduled) {
+                    scheduler.addJob(jobBuilder.build(), true);
+                } else {
+                    if (trigger.isPresent()) {
+                        scheduler.scheduleJob(jobBuilder.build(), trigger.get());
+                    } else {
+                        scheduler.scheduleJob(jobBuilder.build(), newTrigger().startNow().build());
+                    }
+                }
             } catch (SchedulerException e) {
                 e.printStackTrace();
             }

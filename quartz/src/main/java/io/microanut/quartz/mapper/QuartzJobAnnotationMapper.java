@@ -1,4 +1,19 @@
-package io.microanut.quartz.bind;
+/*
+ * Copyright 2017-2020 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.microanut.quartz.mapper;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import io.microanut.quartz.annotation.QuartzJob;
@@ -21,7 +36,9 @@ public class QuartzJobAnnotationMapper implements NamedAnnotationMapper {
     @Override
     public List<AnnotationValue<?>> map(AnnotationValue<Annotation> annotation, VisitorContext visitorContext) {
         final AnnotationValueBuilder<QuartzJob> builder = AnnotationValue.builder(QuartzJob.class);
-       builder.member("clients", String.valueOf(annotation.stringValue("clients")));
+        annotation.booleanValue("schedule").ifPresent(s -> builder.member("schedule", s));
+        annotation.classValue("target").ifPresent(s -> builder.member("target", s));
+
         AnnotationValue<QuartzJob> ann = builder.build();
         return Collections.singletonList(ann);
     }

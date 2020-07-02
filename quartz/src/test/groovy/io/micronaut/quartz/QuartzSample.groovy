@@ -1,11 +1,9 @@
 package io.micronaut.quartz
 
 import io.microanut.quartz.annotation.QuartzJob
+import io.microanut.quartz.annotation.QuartzKey
 import io.micronaut.context.ApplicationContext
-import org.quartz.Job
-import org.quartz.JobBuilder
-import org.quartz.JobExecutionContext
-import org.quartz.JobExecutionException
+import org.quartz.*
 import spock.lang.Specification
 
 import javax.inject.Singleton
@@ -16,13 +14,16 @@ class QuartzSample extends Specification{
 
         @Override
         void execute(JobExecutionContext context) throws JobExecutionException {
-
+            String result = context.get("test");
         }
     }
 
-    interface Jbb {
+    interface Target {
         @QuartzJob(target = Job1.class)
-        void test();
+        void test(JobKey key, @QuartzKey(value = "test") String hello);
+
+        @QuartzJob(target = Job1.class)
+        void test(JobKey key, Trigger trigger, @QuartzKey(value = "test") String hello);
     }
 
     void  "test job"(){

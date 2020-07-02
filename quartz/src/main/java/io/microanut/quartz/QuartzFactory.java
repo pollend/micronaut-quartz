@@ -15,45 +15,35 @@
  */
 package io.microanut.quartz;
 
-import io.microanut.quartz.annotation.QuartzJob;
 import io.microanut.quartz.configuration.QuartzClientConfiguration;
+import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.core.annotation.AnnotationValue;
-import io.micronaut.inject.InjectionPoint;
-import org.quartz.Job;
+import org.quartz.Calendar;
 import org.quartz.JobBuilder;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 
 import javax.inject.Singleton;
 import java.util.Collection;
-import java.util.Optional;
-
-import static org.quartz.TriggerBuilder.*;
-import static org.quartz.SimpleScheduleBuilder.*;
-import static org.quartz.DateBuilder.*;
 
 @Factory
 public class QuartzFactory {
 
-    @EachBean(Job.class)
-    public Optional<JobBuilder> job( Job job) {
-//        Optional<AnnotationValue<QuartzJob>> opt = injectionPoint.findAnnotation(QuartzJob.class);
-//        if (!opt.isPresent()) {
-//            return Optional.empty();
-//        }
+    private final BeanContext beanContext;
 
-
-        return Optional.of(JobBuilder.newJob(job.getClass()));
+    private QuartzFactory(BeanContext beanContext){
+        this.beanContext = beanContext;
     }
 
     @Singleton
     @EachBean(QuartzClientConfiguration.class)
-    public Scheduler scheduler(QuartzClientConfiguration configuration, Collection<JobBuilder> jobs) throws SchedulerException {
+    public Scheduler scheduler(QuartzClientConfiguration configuration) throws SchedulerException {
         Scheduler scheduler = configuration.getBuilder().getScheduler();
-
-
+        for(QuartzClientConfiguration.TriggerConfiguration trigger: configuration.getTriggers()) {
+            scheduler.scheduleJob(trigger.getJob().build(), trigger.getTrigger().build());
+        }
         return scheduler;
     }
+
 }

@@ -15,9 +15,15 @@
  */
 package io.microanut.quartz.configuration;
 
+import io.micronaut.context.annotation.ConfigurationBuilder;
+import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.core.io.ResourceResolver;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobBuilder;
 import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,18 +34,21 @@ import java.io.Reader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
 @EachProperty(value = QuartzClientConfiguration.PREFIX, primary = "default")
 public class QuartzClientConfiguration {
+    private static final Logger LOG = LoggerFactory.getLogger(QuartzClientConfiguration.class);
+
     public static final String PREFIX = "quartz.clients";
     private static final String DEFAULT_CONFIG_FILE = "classpath:io.microanut.quartz.properties";
 
-    private static final Logger LOG = LoggerFactory.getLogger(QuartzClientConfiguration.class);
-
     private String configFile = DEFAULT_CONFIG_FILE;
     private ResourceResolver resourceResolver;
+    private List<TriggerConfiguration> triggers = new ArrayList<>();
 
     public QuartzClientConfiguration(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
@@ -53,10 +62,18 @@ public class QuartzClientConfiguration {
         this.configFile = configFile;
     }
 
+    public List<TriggerConfiguration> getTriggers() {
+        return triggers;
+    }
+
+    public void setTriggers(List<TriggerConfiguration> triggers) {
+        this.triggers = triggers;
+    }
+
     public StdSchedulerFactory getBuilder() {
         StdSchedulerFactory builder = new StdSchedulerFactory();
         Optional<URL> configResource = resourceResolver.getResource(configFile);
-        if(configResource.isPresent()) {
+        if (configResource.isPresent()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Reading io.microanut.quartz configuration from file: {}", configFile);
             }
@@ -71,5 +88,26 @@ public class QuartzClientConfiguration {
             }
         }
         return builder;
+    }
+
+    @EachProperty(value = TriggerConfiguration.PREFIX, list = true)
+    public static class TriggerConfiguration {
+        public static final String PREFIX = "triggers";
+        @ConfigurationBuilder(prefixes = {"set", "with"})
+        private TriggerBuilder<Trigger> trigger = TriggerBuilder.newTrigger();
+        @ConfigurationBuilder(value = "job", prefixes = {"set", "with"})
+        private JobBuilder job = JobBuilder.newJob();
+
+        public void setCron(String cron) {
+            trigger.withSchedule(CronScheduleBuilder.cronSchedule(cron));
+        }
+
+        public TriggerBuilder<Trigger> getTrigger() {
+            return trigger;
+        }
+
+        public JobBuilder getJob() {
+            return job;
+        }
     }
 }
