@@ -19,13 +19,10 @@ import io.microanut.quartz.configuration.QuartzClientConfiguration;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
-import org.quartz.Calendar;
-import org.quartz.JobBuilder;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 
 import javax.inject.Singleton;
-import java.util.Collection;
 
 @Factory
 public class QuartzFactory {
@@ -38,11 +35,12 @@ public class QuartzFactory {
 
     @Singleton
     @EachBean(QuartzClientConfiguration.class)
-    public Scheduler scheduler(QuartzClientConfiguration configuration) throws SchedulerException {
+    public Scheduler scheduler(QuartzClientConfiguration configuration, MicronautJobFactory jobFactory) throws SchedulerException {
         Scheduler scheduler = configuration.getBuilder().getScheduler();
         for(QuartzClientConfiguration.TriggerConfiguration trigger: configuration.getTriggers()) {
             scheduler.scheduleJob(trigger.getJob().build(), trigger.getTrigger().build());
         }
+        scheduler.setJobFactory(jobFactory);
         return scheduler;
     }
 

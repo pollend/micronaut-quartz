@@ -41,8 +41,6 @@ public class QuartzTaskScheduler implements TaskScheduler {
     @Override
     public <V> ScheduledFuture<V> schedule(String cron, Callable<V> command) {
 
-//        JobBuilder.newJob().ofType()
-
         newTrigger()
             .withSchedule(cronSchedule(cron))
             .forJob("test")

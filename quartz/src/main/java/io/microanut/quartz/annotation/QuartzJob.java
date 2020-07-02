@@ -15,38 +15,9 @@
  */
 package io.microanut.quartz.annotation;
 
-import io.microanut.quartz.intercept.QuartzJobIntroductionAdvice;
-import io.micronaut.aop.Around;
-import io.micronaut.aop.Introduction;
-import io.micronaut.context.annotation.Type;
-import org.quartz.Job;
+import io.micronaut.context.annotation.Prototype;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Introduction
-@Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.METHOD, ElementType.TYPE})
-@Around
-@Type(QuartzJobIntroductionAdvice.class)
-@Documented
+@Prototype
 public @interface QuartzJob {
-
-    String value() default "default";
-
-    /**
-     * job is going to be scheduled
-     *
-     * @return
-     */
-    boolean schedule() default false;
-
-    /**
-     * target job for that will be used to schedule the job
-     * @return
-     */
-    Class<? extends Job> target();
+    
 }
