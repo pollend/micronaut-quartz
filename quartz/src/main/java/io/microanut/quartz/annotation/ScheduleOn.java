@@ -15,33 +15,24 @@
  */
 package io.microanut.quartz.annotation;
 
-import io.microanut.quartz.intercept.QuartzHandlerIntroductionAdvice;
-import io.micronaut.aop.Around;
-import io.micronaut.aop.Introduction;
-import io.micronaut.context.annotation.AliasFor;
-import io.micronaut.context.annotation.Type;
+import io.micronaut.core.bind.annotation.Bindable;
 import org.quartz.Job;
 
-import javax.inject.Named;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Introduction
-@Around
-@Retention(value = RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.METHOD, ElementType.TYPE})
-@Type(QuartzHandlerIntroductionAdvice.class)
 @Documented
-@Named
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE})
+@Bindable
 public @interface ScheduleOn {
 
     /**
      * id reference for scheduler
      */
-    @AliasFor(annotation = Named.class, member = "value")
     String id() default "default";
 
     /**
@@ -52,6 +43,6 @@ public @interface ScheduleOn {
     /**
      * job is going to be scheduled.
      */
-    boolean schedule() default false;
+    boolean schedule() default true;
 
 }

@@ -32,6 +32,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +41,10 @@ import java.util.Optional;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 @Singleton
-public class QuartzHandlerIntroductionAdvice implements MethodInterceptor<Object,Object> {
+public class QuartzScheduleIntroductionAdvice implements MethodInterceptor<Object,Object> {
     private final BeanContext beanContext;
 
-    public QuartzHandlerIntroductionAdvice(BeanContext beanContext) {
+    public QuartzScheduleIntroductionAdvice(BeanContext beanContext) {
         this.beanContext = beanContext;
     }
 
@@ -52,12 +53,14 @@ public class QuartzHandlerIntroductionAdvice implements MethodInterceptor<Object
         if (context.hasAnnotation(ScheduleOn.class)) {
             AnnotationValue<ScheduleOn> jobAnnotation = context.findAnnotation(ScheduleOn.class).orElseThrow(() -> new IllegalStateException("No @KafkaClient annotation present on method: " + context));
 
-            String client = jobAnnotation.stringValue("value").orElse("default");
-            boolean isScheduled = jobAnnotation.booleanValue("schedule").orElse(false);
-            Class<? extends Job> classz = (Class<? extends Job>) jobAnnotation.classValue("target").orElseThrow(() -> new IllegalStateException("No Target Job provided"));
+            boolean isScheduled = jobAnnotation.booleanValue("schedule").orElse(true);
+            Class<? extends Job> classz = (Class<? extends Job>) jobAnnotation.classValue("value").orElseThrow(() -> new IllegalStateException("No Target Job provided"));
+            String target = jobAnnotation.stringValue("id").orElse("default");
+
             JobBuilder jobBuilder = JobBuilder.newJob(classz);
             Optional<Trigger> trigger = Optional.empty();
-            Scheduler scheduler = beanContext.findBean(Scheduler.class, Qualifiers.byName(client)).orElseThrow(() -> new IllegalStateException("Unknown Scheduler by name: " + client));
+
+            Scheduler scheduler = beanContext.findBean(Scheduler.class, Qualifiers.byName(target)).orElseThrow(() -> new IllegalStateException("Unknown Scheduler by name: " + target));
 
             Argument[] arguments = context.getArguments();
             Object[] parameterValues = context.getParameterValues();
@@ -82,13 +85,14 @@ public class QuartzHandlerIntroductionAdvice implements MethodInterceptor<Object
 
             try {
                 if (isScheduled) {
-                    scheduler.addJob(jobBuilder.build(), true);
-                } else {
                     if (trigger.isPresent()) {
                         scheduler.scheduleJob(jobBuilder.build(), trigger.get());
                     } else {
                         scheduler.scheduleJob(jobBuilder.build(), newTrigger().startNow().build());
                     }
+                } else {
+                    jobBuilder.storeDurably(true);
+                    scheduler.addJob(jobBuilder.build(), true);
                 }
             } catch (SchedulerException e) {
                 e.printStackTrace();

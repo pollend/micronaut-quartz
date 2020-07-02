@@ -2,3 +2,5 @@ TODO
 
 
 include::{includedir}configurationProperties/io.microanut.quartz.configuration.QuartzConfiguration.adoc[]
+include::{includedir}configurationProperties/io.microanut.quartz.configuration.QuartzClientConfiguration.adoc[]
+include::{includedir}configurationProperties/io.microanut.quartz.configuration.QuartzTriggerConfiguration.adoc[]

@@ -16,17 +16,11 @@
 package io.microanut.quartz.configuration;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
-import io.micronaut.context.annotation.ConfigurationBuilder;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.naming.Named;
-import org.quartz.Calendar;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobBuilder;
 import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +31,6 @@ import java.io.Reader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -51,15 +41,14 @@ public class QuartzClientConfiguration implements Named {
     private static final String DEFAULT_CONFIG_FILE = "classpath:io.microanut.quartz.properties";
 
     private String configFile = DEFAULT_CONFIG_FILE;
-    private ResourceResolver resourceResolver;
-    private List<TriggerConfiguration> triggers = new ArrayList<>();
-    private Map<String,Class<? extends Calendar>> calenders = new LinkedHashMap<>();
+    private final ResourceResolver resourceResolver;
     private final String name;
 
     public QuartzClientConfiguration(@Parameter String name, ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
         this.name = name;
     }
+
 
     public String getConfigFile() {
         return configFile;
@@ -69,30 +58,14 @@ public class QuartzClientConfiguration implements Named {
         this.configFile = configFile;
     }
 
-    public List<TriggerConfiguration> getTriggers() {
-        return triggers;
-    }
-
-    public void setTriggers(List<TriggerConfiguration> triggers) {
-        this.triggers = triggers;
-    }
-
-    public void setCalenders(Map<String, Class<? extends Calendar>> calenders) {
-        this.calenders = calenders;
-    }
-
-    public Map<String, Class<? extends Calendar>> getCalenders() {
-        return calenders;
-    }
-
     public StdSchedulerFactory getBuilder() {
         StdSchedulerFactory builder = new StdSchedulerFactory();
         Optional<URL> configResource = resourceResolver.getResource(configFile);
+        Properties properties = new Properties();
         if (configResource.isPresent()) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Reading io.microanut.quartz configuration from file: {}", configFile);
             }
-            Properties properties = new Properties();
             try (Reader r = new FileReader(Paths.get(configResource.get().toURI()).toFile())) {
                 properties.load(r);
                 builder.initialize(properties);
@@ -111,24 +84,5 @@ public class QuartzClientConfiguration implements Named {
         return this.name;
     }
 
-    @EachProperty(value = TriggerConfiguration.PREFIX, list = true)
-    public static class TriggerConfiguration {
-        public static final String PREFIX = "triggers";
-        @ConfigurationBuilder(prefixes = {"set", "with"})
-        private TriggerBuilder<Trigger> trigger = TriggerBuilder.newTrigger();
-        @ConfigurationBuilder(value = "job", prefixes = {"set", "with"})
-        private JobBuilder job = JobBuilder.newJob();
 
-        public void setCron(String cron) {
-            trigger.withSchedule(CronScheduleBuilder.cronSchedule(cron));
-        }
-
-        public TriggerBuilder<Trigger> getTrigger() {
-            return trigger;
-        }
-
-        public JobBuilder getJob() {
-            return job;
-        }
-    }
 }

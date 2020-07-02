@@ -17,12 +17,17 @@ package io.microanut.quartz.configuration;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.core.util.Toggleable;
+import org.quartz.Calendar;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @ConfigurationProperties(value = QuartzConfiguration.PREFIX)
 public class QuartzConfiguration implements Toggleable {
     public static final String PREFIX = "quartz";
 
     public static final String ENABLED = QuartzConfiguration.PREFIX + ".enabled";
+    private Map<String,Class<? extends Calendar>> calenders = new LinkedHashMap<>();
 
     private boolean enabled = false;
 
@@ -30,8 +35,17 @@ public class QuartzConfiguration implements Toggleable {
         this.enabled = enabled;
     }
 
+    public void setCalenders(Map<String, Class<? extends Calendar>> calenders) {
+        this.calenders = calenders;
+    }
+
+    public Map<String, Class<? extends Calendar>> getCalenders() {
+        return calenders;
+    }
+
     @Override
     public boolean isEnabled() {
         return enabled;
     }
+
 }

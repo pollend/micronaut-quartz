@@ -17,6 +17,9 @@ package io.microanut.quartz.annotation;
 
 import io.micronaut.context.annotation.Prototype;
 
+import java.lang.annotation.Documented;
+
+@Documented
 @Prototype
 public @interface QuartzJob {
 }
