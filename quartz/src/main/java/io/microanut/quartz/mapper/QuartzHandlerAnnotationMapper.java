@@ -16,7 +16,7 @@
 package io.microanut.quartz.mapper;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
-import io.microanut.quartz.annotation.QuartzHandler;
+import io.microanut.quartz.annotation.ScheduleOn;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.AnnotationValueBuilder;
 import io.micronaut.inject.annotation.NamedAnnotationMapper;
@@ -35,10 +35,10 @@ public class QuartzHandlerAnnotationMapper implements NamedAnnotationMapper {
 
     @Override
     public List<AnnotationValue<?>> map(AnnotationValue<Annotation> annotation, VisitorContext visitorContext) {
-        final AnnotationValueBuilder<QuartzHandler> builder = AnnotationValue.builder(QuartzHandler.class);
+        final AnnotationValueBuilder<ScheduleOn> builder = AnnotationValue.builder(ScheduleOn.class);
         annotation.booleanValue("schedule").ifPresent(s -> builder.member("schedule", s));
         annotation.classValue("target").ifPresent(s -> builder.member("target", s));
-        AnnotationValue<QuartzHandler> ann = builder.build();
+        AnnotationValue<ScheduleOn> ann = builder.build();
         return Collections.singletonList(ann);
     }
 }

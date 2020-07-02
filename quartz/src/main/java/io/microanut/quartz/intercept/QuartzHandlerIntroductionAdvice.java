@@ -15,8 +15,7 @@
  */
 package io.microanut.quartz.intercept;
 
-import io.microanut.quartz.annotation.QuartzHandler;
-import io.microanut.quartz.annotation.QuartzJob;
+import io.microanut.quartz.annotation.ScheduleOn;
 import io.microanut.quartz.annotation.QuartzKey;
 import io.micronaut.aop.MethodInterceptor;
 import io.micronaut.aop.MethodInvocationContext;
@@ -50,8 +49,8 @@ public class QuartzHandlerIntroductionAdvice implements MethodInterceptor<Object
 
     @Override
     public Object intercept(MethodInvocationContext<Object, Object> context) {
-        if (context.hasAnnotation(QuartzHandler.class)) {
-            AnnotationValue<QuartzHandler> jobAnnotation = context.findAnnotation(QuartzHandler.class).orElseThrow(() -> new IllegalStateException("No @KafkaClient annotation present on method: " + context));
+        if (context.hasAnnotation(ScheduleOn.class)) {
+            AnnotationValue<ScheduleOn> jobAnnotation = context.findAnnotation(ScheduleOn.class).orElseThrow(() -> new IllegalStateException("No @KafkaClient annotation present on method: " + context));
 
             String client = jobAnnotation.stringValue("value").orElse("default");
             boolean isScheduled = jobAnnotation.booleanValue("schedule").orElse(false);

@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.METHOD, ElementType.TYPE})
 @Type(QuartzHandlerIntroductionAdvice.class)
 @Documented
-public @interface QuartzHandler {
+public @interface ScheduleOn {
 
     String value() default "default";
 

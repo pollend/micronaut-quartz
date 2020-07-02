@@ -1,6 +1,6 @@
 package io.micronaut.quartz
 
-import io.microanut.quartz.annotation.QuartzHandler
+import io.microanut.quartz.annotation.ScheduleOn
 import io.microanut.quartz.annotation.QuartzJob
 import io.microanut.quartz.annotation.QuartzKey
 import io.micronaut.context.ApplicationContext
@@ -10,18 +10,18 @@ import spock.lang.Specification
 import javax.inject.Inject
 import javax.inject.Singleton
 
-class QuartzSample extends Specification{
-   @Singleton
-   class SampleService {
+class QuartzSample extends Specification {
+    @Singleton
+    class SampleService {
 
-   }
+    }
 
     @QuartzJob
-   class Job1 implements Job {
-       @Inject
-       public Job1(SampleService service){
+    class Job1 implements Job {
+        @Inject
+        public Job1(SampleService service) {
 
-       }
+        }
 
         @Override
         void execute(JobExecutionContext context) throws JobExecutionException {
@@ -30,14 +30,14 @@ class QuartzSample extends Specification{
     }
 
     interface Target {
-        @QuartzHandler(target = Job1.class)
+        @ScheduleOn(target = Job1.class)
         void test(JobKey key, @QuartzKey(value = "test") String hello);
 
-        @QuartzHandler(target = Job1.class)
-        void test(JobKey key, Trigger trigger, @QuartzKey(value = "test") String hello);
+        @ScheduleOn(target = Job1.class)
+        void test(JobKey key, Trigger trigger, @QuartzKey() String hello);
     }
 
-    void  "test job"(){
+    void "test job"() {
         given:
         ApplicationContext ctx = ApplicationContext.run()
 

@@ -32,5 +32,4 @@ import java.lang.annotation.Target;
 public @interface QuartzKey {
     @AliasFor(annotation = Bindable.class, member = "value")
     String value() default "";
-
 }
