@@ -16,32 +16,50 @@
 package io.microanut.quartz;
 
 import io.microanut.quartz.configuration.QuartzClientConfiguration;
+import io.microanut.quartz.configuration.QuartzConfiguration;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.inject.qualifiers.Qualifiers;
+import org.quartz.Calendar;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 
 import javax.inject.Singleton;
+import java.util.Map;
 
+/**
+ * Factory class that create an {@link Scheduler} beans.
+ *
+ */
 @Factory
 public class QuartzFactory {
 
     private final BeanContext beanContext;
+    private final QuartzConfiguration configuration;
 
-    private QuartzFactory(BeanContext beanContext){
+    private QuartzFactory(BeanContext beanContext, QuartzConfiguration configuration) {
         this.beanContext = beanContext;
+        this.configuration = configuration;
     }
 
     @Singleton
     @EachBean(QuartzClientConfiguration.class)
     public Scheduler scheduler(QuartzClientConfiguration configuration, MicronautJobFactory jobFactory) throws SchedulerException {
         Scheduler scheduler = configuration.getBuilder().getScheduler();
-        for(QuartzClientConfiguration.TriggerConfiguration trigger: configuration.getTriggers()) {
+        for (Map.Entry<String, Class<? extends Calendar>> entry : configuration.getCalenders().entrySet()) {
+            String key = entry.getKey();
+            Class<? extends Calendar> value = entry.getValue();
+            try {
+                scheduler.addCalendar(key, beanContext.getBean(value, Qualifiers.byName(configuration.getName())), true, false);
+            } catch (SchedulerException e) {
+                e.printStackTrace();
+            }
+        }
+        for (QuartzClientConfiguration.TriggerConfiguration trigger : configuration.getTriggers()) {
             scheduler.scheduleJob(trigger.getJob().build(), trigger.getTrigger().build());
         }
         scheduler.setJobFactory(jobFactory);
         return scheduler;
     }
-
 }

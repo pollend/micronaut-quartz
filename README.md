@@ -1,9 +1,9 @@
-# Micronaut XXX
+# Micronaut Quartz
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.micronaut.xxx/micronaut-xxx.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.micronaut.xxx%22%20AND%20a:%22micronaut-xxx%22)
 [![Build Status](https://github.com/micronaut-projects/micronaut-xxx/workflows/Java%20CI/badge.svg)](https://github.com/micronaut-projects/micronaut-xxx/actions)
 
-Micronaut XXX is...
+Adds support for the Quartz Scheduler to a Micronaut Project.
 
 ## Documentation
 

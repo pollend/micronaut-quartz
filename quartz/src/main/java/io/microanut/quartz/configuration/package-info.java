@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.microanut.quartz.annotation;
+/**
+ * Configuration for quartz
+ */
+@Configuration
+@Requires(property = QuartzConfiguration.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
+package io.microanut.quartz.configuration;
 
-import io.micronaut.context.annotation.Prototype;
-
-@Prototype
-public @interface QuartzJob {
-}
+import io.micronaut.context.annotation.Configuration;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.util.StringUtils;

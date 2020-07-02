@@ -15,10 +15,13 @@
  */
 package io.microanut.quartz.configuration;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import io.micronaut.context.annotation.ConfigurationBuilder;
-import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.EachProperty;
+import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.io.ResourceResolver;
+import io.micronaut.core.naming.Named;
+import org.quartz.Calendar;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.SchedulerException;
@@ -35,23 +38,27 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
-@EachProperty(value = QuartzClientConfiguration.PREFIX, primary = "default")
-public class QuartzClientConfiguration {
+@EachProperty(value = QuartzConfiguration.PREFIX + "." + QuartzClientConfiguration.PREFIX, primary = "default")
+public class QuartzClientConfiguration implements Named {
     private static final Logger LOG = LoggerFactory.getLogger(QuartzClientConfiguration.class);
-
-    public static final String PREFIX = "quartz.clients";
+    public static final String PREFIX = "clients";
     private static final String DEFAULT_CONFIG_FILE = "classpath:io.microanut.quartz.properties";
 
     private String configFile = DEFAULT_CONFIG_FILE;
     private ResourceResolver resourceResolver;
     private List<TriggerConfiguration> triggers = new ArrayList<>();
+    private Map<String,Class<? extends Calendar>> calenders = new LinkedHashMap<>();
+    private final String name;
 
-    public QuartzClientConfiguration(ResourceResolver resourceResolver) {
+    public QuartzClientConfiguration(@Parameter String name, ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
+        this.name = name;
     }
 
     public String getConfigFile() {
@@ -68,6 +75,14 @@ public class QuartzClientConfiguration {
 
     public void setTriggers(List<TriggerConfiguration> triggers) {
         this.triggers = triggers;
+    }
+
+    public void setCalenders(Map<String, Class<? extends Calendar>> calenders) {
+        this.calenders = calenders;
+    }
+
+    public Map<String, Class<? extends Calendar>> getCalenders() {
+        return calenders;
     }
 
     public StdSchedulerFactory getBuilder() {
@@ -88,6 +103,12 @@ public class QuartzClientConfiguration {
             }
         }
         return builder;
+    }
+
+    @NonNull
+    @Override
+    public String getName() {
+        return this.name;
     }
 
     @EachProperty(value = TriggerConfiguration.PREFIX, list = true)

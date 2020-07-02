@@ -30,7 +30,7 @@ public class QuartzHandlerAnnotationMapper implements NamedAnnotationMapper {
     @NonNull
     @Override
     public String getName() {
-        return "io.microanut.quartz.annotation.QuartzHandler";
+        return "io.microanut.quartz.annotation.ScheduleOn";
     }
 
     @Override

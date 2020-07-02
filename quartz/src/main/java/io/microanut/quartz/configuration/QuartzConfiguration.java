@@ -13,10 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.microanut.quartz.annotation;
+package io.microanut.quartz.configuration;
 
-import io.micronaut.context.annotation.Prototype;
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.core.util.Toggleable;
 
-@Prototype
-public @interface QuartzJob {
+@ConfigurationProperties(value = QuartzConfiguration.PREFIX)
+public class QuartzConfiguration implements Toggleable {
+    public static final String PREFIX = "quartz";
+
+    public static final String ENABLED = QuartzConfiguration.PREFIX + ".enabled";
+
+    private boolean enabled = false;
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

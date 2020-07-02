@@ -1,51 +1,54 @@
 package io.micronaut.quartz
 
-import io.microanut.quartz.annotation.ScheduleOn
 import io.microanut.quartz.annotation.QuartzJob
 import io.microanut.quartz.annotation.QuartzKey
+import io.microanut.quartz.annotation.ScheduleOn
 import io.micronaut.context.ApplicationContext
-import org.quartz.*
+import org.quartz.Job
+import org.quartz.JobExecutionContext
+import org.quartz.JobExecutionException
+import org.quartz.JobKey
+import org.quartz.Trigger
 import spock.lang.Specification
 
 import javax.inject.Inject
-import javax.inject.Singleton
 
-class QuartzSample extends Specification {
-    @Singleton
-    class SampleService {
-
-    }
+class QuartzScheduleOnSpec extends Specification {
 
     @QuartzJob
     class Job1 implements Job {
         @Inject
-        public Job1(SampleService service) {
+        public Job1() {
 
         }
 
         @Override
         void execute(JobExecutionContext context) throws JobExecutionException {
-            String result = context.get("test");
         }
     }
 
-    interface Target {
+    @QuartzJob
+    class Job2 implements Job {
+        @Inject
+        public Job1() {
+
+        }
+        @Override
+        void execute(JobExecutionContext context) throws JobExecutionException {
+
+        }
+    }
+    interface SampleSchedule {
         @ScheduleOn(Job1.class)
-        void test(JobKey key, @QuartzKey(value = "test") String hello);
+        void test(JobKey key, @QuartzKey("test") String hello);
 
         @ScheduleOn(Job1.class)
         void test(JobKey key, Trigger trigger, @QuartzKey() String hello);
     }
 
-    void "test job"() {
+    void "schedule job with key and value"(){
         given:
         ApplicationContext ctx = ApplicationContext.run()
-
-        when:
-        Collection<Job> builders = ctx.getBeansOfType(Job.class);
-
-        then:
-        builders.size() == 1
 
     }
 
