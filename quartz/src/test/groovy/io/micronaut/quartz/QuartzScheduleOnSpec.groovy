@@ -1,7 +1,9 @@
 package io.micronaut.quartz
 
 import io.micronaut.context.ApplicationContext
+import org.quartz.JobDetail
 import org.quartz.JobKey
+import org.quartz.Scheduler
 import spock.lang.Specification
 
 class QuartzScheduleOnSpec extends Specification {
@@ -14,10 +16,17 @@ class QuartzScheduleOnSpec extends Specification {
         ])
 
         when:
-        SampleSchedule schedule = ctx.createBean(SampleSchedule.class)
+        SampleSchedule sampleSchedule = ctx.createBean(SampleSchedule.class)
+        Scheduler scheduler = ctx.getBean(Scheduler.class)
+        JobKey key = new JobKey("hello_world")
 
         then:
-        schedule.withJobKey(new JobKey("hello_world"), "hello world")
+        sampleSchedule.withJobKey(key, "hello world")
+        JobDetail detail = scheduler.getJobDetail()
+        !detail.durable
+        !detail.requestsRecovery()
+
+
     }
 
 }

@@ -30,6 +30,14 @@ import java.lang.annotation.Target;
 @Target({ElementType.PARAMETER})
 @Bindable
 public @interface QuartzKey {
+    /**
+     * @return
+     */
     @AliasFor(annotation = Bindable.class, member = "value")
     String value() default "";
+
+    /**
+     * @return attempts to cast to target type
+     */
+    Class<?> to() default String.class;
 }

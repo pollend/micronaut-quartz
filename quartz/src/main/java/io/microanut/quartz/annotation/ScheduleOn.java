@@ -17,6 +17,7 @@ package io.microanut.quartz.annotation;
 
 import io.micronaut.core.bind.annotation.Bindable;
 import org.quartz.Job;
+import org.quartz.JobDetail;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -31,18 +32,30 @@ import java.lang.annotation.Target;
 public @interface ScheduleOn {
 
     /**
-     * id reference for scheduler
+     * @return id reference for scheduler
      */
     String id() default "default";
 
     /**
-     * target job for that will be used to schedule the job.
+     * @return target job for that will be used to schedule the job.
      */
     Class<? extends Job> value();
 
     /**
-     * job is going to be scheduled.
+     * @return Set job status for {@link JobDetail#isDurable()}
      */
-    boolean schedule() default true;
+    boolean durability() default false;
+
+    /**
+     *
+     * @return Set job status for {@link JobDetail#requestsRecovery()}.
+     */
+    boolean recoverable() default false;
+
+    /**
+     * @return Set job status for {@link JobDetail#getDescription()}
+     */
+    String description() default "";
+
 
 }
