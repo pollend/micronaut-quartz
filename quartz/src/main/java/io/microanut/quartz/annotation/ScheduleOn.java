@@ -15,6 +15,7 @@
  */
 package io.microanut.quartz.annotation;
 
+import io.micronaut.aop.Introduction;
 import io.micronaut.core.bind.annotation.Bindable;
 import org.quartz.Job;
 

@@ -16,14 +16,17 @@
 package io.microanut.quartz.intercept;
 
 import io.microanut.quartz.annotation.QuartzKey;
+import io.microanut.quartz.annotation.QuartzSchedule;
 import io.microanut.quartz.annotation.ScheduleOn;
 import io.micronaut.aop.MethodInterceptor;
 import io.micronaut.aop.MethodInvocationContext;
 import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.annotation.AnnotationValue;
+import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
+import io.micronaut.core.type.ReturnType;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
@@ -37,6 +40,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.util.Optional;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.Future;
 
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -51,7 +56,7 @@ public class QuartzScheduleIntroductionAdvice implements MethodInterceptor<Objec
 
     @Override
     public Object intercept(MethodInvocationContext<Object, Object> context) {
-        if (context.hasAnnotation(ScheduleOn.class)) {
+        if (context.hasAnnotation(QuartzSchedule.class)) {
             AnnotationValue<ScheduleOn> jobAnnotation = context.findAnnotation(ScheduleOn.class).orElseThrow(() -> new IllegalStateException("No @KafkaClient annotation present on method: " + context));
 
             Class<? extends Job> classz = (Class<? extends Job>) jobAnnotation.classValue("value").orElseThrow(() -> new IllegalStateException("No Target Job provided"));
@@ -100,9 +105,9 @@ public class QuartzScheduleIntroductionAdvice implements MethodInterceptor<Objec
                 }
             }
 
+            //TODO: need to work out how to hand advice
             return null;
-        } else {
-            return context.proceed();
         }
+        return  context.proceed();
     }
 }
