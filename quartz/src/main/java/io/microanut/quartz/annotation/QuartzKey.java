@@ -15,7 +15,6 @@
  */
 package io.microanut.quartz.annotation;
 
-
 import io.micronaut.context.annotation.AliasFor;
 import io.micronaut.core.bind.annotation.Bindable;
 
@@ -25,19 +24,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Bindable key that is mapped into {@link org.quartz.JobDataMap}.
+ */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER})
 @Bindable
 public @interface QuartzKey {
     /**
-     * @return
+     * @return value of key written into {@link org.quartz.JobDetail}.
      */
     @AliasFor(annotation = Bindable.class, member = "value")
     String value() default "";
 
     /**
-     * @return attempts to cast to target type
+     * @return attempts to cast to target {@link Class}.
      */
     Class<?> to() default String.class;
 }

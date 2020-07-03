@@ -15,9 +15,8 @@
  */
 package io.microanut.quartz.intercept;
 
-import io.microanut.quartz.QuartzFactory;
-import io.microanut.quartz.annotation.ScheduleOn;
 import io.microanut.quartz.annotation.QuartzKey;
+import io.microanut.quartz.annotation.ScheduleOn;
 import io.micronaut.aop.MethodInterceptor;
 import io.micronaut.aop.MethodInvocationContext;
 import io.micronaut.context.BeanContext;
@@ -36,23 +35,19 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.quartz.TriggerBuilder.newTrigger;
 
 @Singleton
-public class QuartzScheduleIntroductionAdvice implements MethodInterceptor<Object,Object> {
+public class QuartzScheduleIntroductionAdvice implements MethodInterceptor<Object, Object> {
     private static final Logger LOG = LoggerFactory.getLogger(QuartzScheduleIntroductionAdvice.class);
     private final BeanContext beanContext;
 
     public QuartzScheduleIntroductionAdvice(BeanContext beanContext) {
         this.beanContext = beanContext;
     }
-
 
     @Override
     public Object intercept(MethodInvocationContext<Object, Object> context) {
@@ -90,7 +85,6 @@ public class QuartzScheduleIntroductionAdvice implements MethodInterceptor<Objec
                 }
             }
             jobBuilder.setJobData(jobData);
-
             jobAnnotation.booleanValue("durability").ifPresent(jobBuilder::storeDurably);
             jobAnnotation.booleanValue("recoverable").ifPresent(jobBuilder::requestRecovery);
             jobAnnotation.stringValue("description").ifPresent(jobBuilder::withDescription);

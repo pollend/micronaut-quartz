@@ -17,7 +17,6 @@ package io.microanut.quartz.annotation;
 
 import io.micronaut.core.bind.annotation.Bindable;
 import org.quartz.Job;
-import org.quartz.JobDetail;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -25,6 +24,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * An annotation for scheduling a quartz job.
+ */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE})
@@ -32,7 +34,7 @@ import java.lang.annotation.Target;
 public @interface ScheduleOn {
 
     /**
-     * @return id reference for scheduler
+     * @return id reference for scheduler.
      */
     String id() default "default";
 
@@ -42,18 +44,18 @@ public @interface ScheduleOn {
     Class<? extends Job> value();
 
     /**
-     * @return Set job status for {@link JobDetail#isDurable()}
+     * @return Set job status for {@link org.quartz.JobDetail#isDurable()}.
      */
     boolean durability() default false;
 
     /**
      *
-     * @return Set job status for {@link JobDetail#requestsRecovery()}.
+     * @return Set job status for {@link org.quartz.JobDetail#requestsRecovery()}.
      */
     boolean recoverable() default false;
 
     /**
-     * @return Set job status for {@link JobDetail#getDescription()}
+     * @return Set job status for {@link org.quartz.JobDetail#getDescription()}.
      */
     String description() default "";
 

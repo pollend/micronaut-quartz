@@ -19,6 +19,9 @@ import io.micronaut.context.annotation.Prototype;
 
 import java.lang.annotation.Documented;
 
+/**
+ * Denotes a Quartz Job.
+ */
 @Documented
 @Prototype
 public @interface QuartzJob {

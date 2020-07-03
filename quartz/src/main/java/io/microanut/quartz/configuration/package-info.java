@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * Configuration for quartz
+ * Configuration for quartz.
  */
 @Configuration
 @Requires(property = QuartzConfiguration.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)

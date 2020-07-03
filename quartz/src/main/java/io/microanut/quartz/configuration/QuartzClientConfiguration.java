@@ -34,10 +34,14 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
 
+/**
+ * quartz configuration for individual schedulers.
+ */
 @EachProperty(value = QuartzConfiguration.PREFIX + "." + QuartzClientConfiguration.PREFIX, primary = "default")
 public class QuartzClientConfiguration implements Named {
-    private static final Logger LOG = LoggerFactory.getLogger(QuartzClientConfiguration.class);
     public static final String PREFIX = "clients";
+
+    private static final Logger LOG = LoggerFactory.getLogger(QuartzClientConfiguration.class);
     private static final String DEFAULT_CONFIG_FILE = "classpath:io.microanut.quartz.properties";
 
     private String configFile = DEFAULT_CONFIG_FILE;
@@ -49,15 +53,25 @@ public class QuartzClientConfiguration implements Named {
         this.name = name;
     }
 
-
+    /**
+     * by default uses <code>classpath:io.microanut.quartz.properties</code>.
+     *
+     * @return the config file
+     */
     public String getConfigFile() {
         return configFile;
     }
 
+    /**
+     * @param configFile the config file.
+     */
     public void setConfigFile(String configFile) {
         this.configFile = configFile;
     }
 
+    /**
+     * @return create scheduler builder.
+     */
     public StdSchedulerFactory getBuilder() {
         StdSchedulerFactory builder = new StdSchedulerFactory();
         Optional<URL> configResource = resourceResolver.getResource(configFile);
@@ -78,11 +92,12 @@ public class QuartzClientConfiguration implements Named {
         return builder;
     }
 
+    /**
+     * @return name of scheduler
+     */
     @NonNull
     @Override
     public String getName() {
         return this.name;
     }
-
-
 }
