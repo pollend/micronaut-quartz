@@ -3,6 +3,7 @@ package io.micronaut.quartz.jobs;
 import io.microanut.quartz.annotation.QuartzJob;
 import io.micronaut.quartz.PayloadContainer;
 import org.quartz.Job;
+import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
@@ -22,7 +23,9 @@ public class Job1 implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        payloadContainer.add((String) context.get("value"));
+
+        JobDataMap map = context.getJobDetail().getJobDataMap();
+        payloadContainer.add(map.getString("value"));
 
     }
 }

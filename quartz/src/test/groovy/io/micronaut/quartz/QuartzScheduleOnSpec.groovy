@@ -1,32 +1,36 @@
 package io.micronaut.quartz
 
 import io.micronaut.context.ApplicationContext
-import org.quartz.JobDetail
 import org.quartz.JobKey
 import org.quartz.Scheduler
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 class QuartzScheduleOnSpec extends Specification {
 
-    void "schedule job with key and value"(){
+    void "schedule job"() {
         given:
+        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 1)
         ApplicationContext ctx = ApplicationContext.run([
-            "quartz.enabled" : true,
+            "quartz.enabled"                    : true,
             "quartz.clients.default.config-file": "io.microanut.quartz.properties"
         ])
 
         when:
         SampleSchedule sampleSchedule = ctx.createBean(SampleSchedule.class)
+        PayloadContainer payloadContainer = ctx.getBean(PayloadContainer.class)
         Scheduler scheduler = ctx.getBean(Scheduler.class)
-        JobKey key = new JobKey("hello_world")
 
         then:
-        sampleSchedule.withJobKey(key, "hello world")
-        JobDetail detail = scheduler.getJobDetail()
-        !detail.durable
-        !detail.requestsRecovery()
-
-
+        sampleSchedule.withJobKey(new JobKey("one", "group1"), "one")
+        sampleSchedule.withJobKey(new JobKey("two", "group1"), "two")
+        sampleSchedule.withJobKey(new JobKey("three", "group1"), "three")
+        conditions.eventually {
+            payloadContainer.arrQueue.size() == 3
+            payloadContainer.arrQueue.contains("one")
+            payloadContainer.arrQueue.contains("two")
+            payloadContainer.arrQueue.contains("three")
+        }
     }
 
 }

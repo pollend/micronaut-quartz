@@ -99,7 +99,10 @@ public class QuartzScheduleIntroductionAdvice implements MethodInterceptor<Objec
                     LOG.warn("failed to schedule job for job [ " + classz + " ]", e);
                 }
             }
+
+            return null;
+        } else {
+            return context.proceed();
         }
-        return context.proceed();
     }
 }
