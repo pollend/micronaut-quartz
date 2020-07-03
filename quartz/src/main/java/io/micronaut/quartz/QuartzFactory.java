@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.microanut.quartz;
+package io.micronaut.quartz;
 
-import io.microanut.quartz.configuration.QuartzClientConfiguration;
-import io.microanut.quartz.configuration.QuartzConfiguration;
-import io.microanut.quartz.configuration.QuartzTriggerConfiguration;
+import io.micronaut.quartz.configuration.QuartzClientConfiguration;
+import io.micronaut.quartz.configuration.QuartzConfiguration;
+import io.micronaut.quartz.configuration.QuartzTriggerConfiguration;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.EachBean;
 import io.micronaut.context.annotation.Factory;

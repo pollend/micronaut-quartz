@@ -1,11 +1,9 @@
 package io.micronaut.quartz
 
-import io.microanut.quartz.MicronautJobFactory
-import io.microanut.quartz.QuartzFactory
+
 import io.micronaut.context.ApplicationContext
 import io.micronaut.quartz.jobs.Job1
 import io.micronaut.quartz.jobs.Job2
-import org.quartz.spi.TriggerFiredBundle
 import spock.lang.Specification
 
 class QuartzJobSpec extends Specification{

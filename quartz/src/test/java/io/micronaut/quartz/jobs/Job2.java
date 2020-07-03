@@ -1,6 +1,6 @@
 package io.micronaut.quartz.jobs;
 
-import io.microanut.quartz.annotation.QuartzJob;
+import io.micronaut.quartz.annotation.QuartzJob;
 import io.micronaut.quartz.PayloadContainer;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

@@ -18,7 +18,7 @@
  */
 @Configuration
 @Requires(property = QuartzConfiguration.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
-package io.microanut.quartz.configuration;
+package io.micronaut.quartz.configuration;
 
 import io.micronaut.context.annotation.Configuration;
 import io.micronaut.context.annotation.Requires;

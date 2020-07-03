@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.microanut.quartz.intercept;
+package io.micronaut.quartz.intercept;
 
-import io.microanut.quartz.annotation.QuartzKey;
-import io.microanut.quartz.annotation.QuartzSchedule;
-import io.microanut.quartz.annotation.ScheduleOn;
+import io.micronaut.quartz.annotation.QuartzKey;
+import io.micronaut.quartz.annotation.QuartzSchedule;
+import io.micronaut.quartz.annotation.ScheduleOn;
 import io.micronaut.aop.MethodInterceptor;
 import io.micronaut.aop.MethodInvocationContext;
 import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.annotation.AnnotationValue;
-import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.type.Argument;
-import io.micronaut.core.type.ReturnType;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
@@ -40,8 +38,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.util.Optional;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.Future;
 
 import static org.quartz.TriggerBuilder.newTrigger;
 

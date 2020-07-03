@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.microanut.quartz.annotation;
+package io.micronaut.quartz.annotation;
 
-import io.micronaut.context.annotation.AliasFor;
+import io.micronaut.aop.Introduction;
 import io.micronaut.core.bind.annotation.Bindable;
+import org.quartz.Job;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -25,21 +26,39 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Bindable key that is mapped into {@link org.quartz.JobDataMap}.
+ * An annotation for scheduling a quartz job.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER})
+@Target({ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE})
 @Bindable
-public @interface QuartzKey {
-    /**
-     * @return value of key written into {@link org.quartz.JobDetail}.
-     */
-    @AliasFor(annotation = Bindable.class, member = "value")
-    String value() default "";
+public @interface ScheduleOn {
 
     /**
-     * @return attempts to cast to target {@link Class}.
+     * @return id reference for scheduler.
      */
-    Class<?> to() default String.class;
+    String id() default "default";
+
+    /**
+     * @return target job for that will be used to schedule the job.
+     */
+    Class<? extends Job> value();
+
+    /**
+     * @return Set job status for {@link org.quartz.JobDetail#isDurable()}.
+     */
+    boolean durability() default false;
+
+    /**
+     *
+     * @return Set job status for {@link org.quartz.JobDetail#requestsRecovery()}.
+     */
+    boolean recoverable() default false;
+
+    /**
+     * @return Set job status for {@link org.quartz.JobDetail#getDescription()}.
+     */
+    String description() default "";
+
+
 }

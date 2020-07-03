@@ -1,13 +1,11 @@
 package io.micronaut.quartz;
 
-import io.microanut.quartz.annotation.QuartzKey;
-import io.microanut.quartz.annotation.QuartzSchedule;
-import io.microanut.quartz.annotation.ScheduleOn;
+import io.micronaut.quartz.annotation.QuartzKey;
+import io.micronaut.quartz.annotation.QuartzSchedule;
+import io.micronaut.quartz.annotation.ScheduleOn;
 import io.micronaut.quartz.jobs.Job1;
 import org.quartz.JobKey;
 import org.quartz.Trigger;
-
-import javax.inject.Singleton;
 
 @QuartzSchedule()
 public interface SampleSchedule {
