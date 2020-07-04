@@ -18,11 +18,13 @@ package io.micronaut.quartz.configuration;
 import io.micronaut.context.annotation.ConfigurationBuilder;
 import io.micronaut.context.annotation.EachProperty;
 import org.quartz.CronScheduleBuilder;
+import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.TriggerBuilder;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * trigger configuration used when quartz scheduler is created.
@@ -33,11 +35,31 @@ public class QuartzTriggerConfiguration {
 
     public static final String DEFAULT_CLIENT = "default";
 
-    @ConfigurationBuilder(prefixes = {"set", "with", ""}, excludes = {"jobDataMap", "usingJobData", "jobData"})
+    @ConfigurationBuilder(prefixes = {"set", "with", ""}, excludes = {"jobDataMap", "usingJobData", "jobData"}, allowZeroArgs = true)
     private TriggerBuilder trigger = TriggerBuilder.newTrigger();
     @ConfigurationBuilder(value = "job", prefixes = {"set", "with", ""}, excludes = {"jobDataMap", "usingJobData", "jobData"})
     private JobBuilder job = JobBuilder.newJob();
     private String client = DEFAULT_CLIENT;
+    private Optional<Class<? extends Job>> target = Optional.empty();
+
+    /**
+     * @return job used with trigger
+     */
+    public Optional<Class<? extends Job>> getTarget() {
+        return target;
+    }
+
+    /**
+     * @param target job used with trigger
+     */
+    public void setTarget(Optional<Class<? extends Job>> target) {
+        this.target = target;
+    }
+
+    public static JobBuilder createJobBuilder(){
+        return JobBuilder.newJob();
+    }
+
 
     /**
      * @param cron set a cron tab that triggers for {@link org.quartz.Job}
@@ -78,6 +100,7 @@ public class QuartzTriggerConfiguration {
      * @return job tied to trigger
      */
     public JobBuilder getJob() {
+        this.target.ifPresent(j -> job.ofType(j));
         return job;
     }
 }

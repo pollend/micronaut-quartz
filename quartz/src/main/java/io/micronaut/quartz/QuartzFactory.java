@@ -56,9 +56,10 @@ public class QuartzFactory implements AutoCloseable {
 
     /**
      * create quartz {@link Scheduler}
+     *
      * @param clientConfiguration client configuration
-     * @param triggers list of triggers to start up initially with scheduler
-     * @param jobFactory factory for job
+     * @param triggers            list of triggers to start up initially with scheduler
+     * @param jobFactory          factory for job
      * @return scheduler
      * @throws SchedulerException
      */
@@ -71,7 +72,11 @@ public class QuartzFactory implements AutoCloseable {
         Scheduler scheduler = clientConfiguration.getBuilder().getScheduler();
         for (QuartzTriggerConfiguration trigger : triggers) {
             if (trigger.getClient().equals(clientConfiguration.getName())) {
-                scheduler.scheduleJob(trigger.getJob().build(), trigger.getTrigger().build());
+                if (trigger.getTarget().isPresent()) {
+                    scheduler.scheduleJob(trigger.getJob().build(), trigger.getTrigger().build());
+                } else {
+                    scheduler.scheduleJob(trigger.getTrigger().build());
+                }
             }
         }
         for (Map.Entry<String, Class<? extends Calendar>> entry : configuration.getCalenders().entrySet()) {
@@ -103,6 +108,5 @@ public class QuartzFactory implements AutoCloseable {
                 }
             }
         }
-
     }
 }

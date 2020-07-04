@@ -2,7 +2,6 @@ package io.micronaut.quartz
 
 import io.micronaut.context.ApplicationContext
 import org.quartz.JobKey
-import org.quartz.Scheduler
 import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
 
@@ -13,13 +12,12 @@ class QuartzScheduleOnSpec extends Specification {
         PollingConditions conditions = new PollingConditions(timeout: 30, delay: 1)
         ApplicationContext ctx = ApplicationContext.run([
             "quartz.enabled"                    : true,
-            "quartz.clients.default.config-file": "io.microanut.quartz.properties"
+            "quartz.clients.default.config-file": ""
         ])
 
         when:
-        SampleSchedule sampleSchedule = ctx.createBean(SampleSchedule.class)
+        SampleSchedule sampleSchedule = ctx.getBean(SampleSchedule.class)
         PayloadContainer payloadContainer = ctx.getBean(PayloadContainer.class)
-        Scheduler scheduler = ctx.getBean(Scheduler.class)
 
         then:
         sampleSchedule.withJobKey(new JobKey("one", "group1"), "one")
