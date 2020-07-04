@@ -18,6 +18,7 @@ class QuartzClientConfigurationSpec extends Specification{
             "quartz.clients.default.config-file": "classpath:example.properties"
         ])
 
+
         when:
         QuartzClientConfiguration configuration = ctx.getBean(QuartzClientConfiguration.class)
         Scheduler scheduler = ctx.getBean(Scheduler.class)
