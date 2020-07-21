@@ -1,0 +1,12 @@
+dependencies {
+    testImplementation("org.spockframework:spock-core:${spockVersion}") {
+        exclude module:'groovy-all'
+    }
+    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+
+    annotationProcessor "io.micronaut:micronaut-inject-groovy"
+    testCompile project(":quartz")
+    testCompile "io.micronaut:micronaut-inject"
+    testImplementation "io.micronaut:micronaut-inject-groovy"
+    testImplementation "io.micronaut:micronaut-inject-java-test"
+}
