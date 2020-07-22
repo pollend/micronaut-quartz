@@ -1,0 +1,61 @@
+
+The properties that can be converted from the string values in a configuration file can be configured directly.
+
+include::{includedir}configurationProperties/io.micronaut.quartz.configuration.QuartzClientConfiguration.adoc[]
+include::{includedir}configurationProperties/io.micronaut.quartz.configuration.QuartzConfiguration.adoc[]
+include::{includedir}configurationProperties/io.micronaut.quartz.configuration.QuartzTriggerConfiguration.adoc[]
+
+
+== Scheduler Configuration
+
+the `config-file` is the configuration for the associated scheduler. One or more clients can be configured as follows:
+
+For Example:
+[source,yaml]
+----
+quarts:
+  enabled: true
+  clients:
+    default:
+      config-file: "classpath:quartz.properties"
+    two:
+      config-file: "classpath:another.properties"
+----
+
+A configuration reference is available from the http://www.quartz-scheduler.org/documentation/quartz-2.2.2/configuration/[Quartz Configuration].
+A sample `quartz.properties` can be also found in the http://www.quartz-scheduler.org/documentation/2.4.0-SNAPSHOT/quick-start-guide.html[quickstart].
+
+[source,properties]
+----
+org.quartz.scheduler.instanceName = MyScheduler
+org.quartz.threadPool.threadCount = 3
+org.quartz.jobStore.class = org.quartz.simpl.RAMJobStore
+----
+
+==  Schedules and Triggers
+
+Schedules and triggers can be configured for daily or initial jobs with the start of the application.
+
+For Example:
+[source,yaml]
+----
+quartz:
+  enabled: true
+  clients:
+    default:
+      config-file: "classpath:quartz.properties"
+  triggers:
+    - start-now: true
+      description: "initial trigger"
+      target: "io.company.job1"
+    - start-now: true
+      description: "job at 2 every day"
+      target: "io.company.job2"
+      cron:  0 2 * * *
+----
+
+==  Calendar
+
+TODO: setup calendar configuration
+
+

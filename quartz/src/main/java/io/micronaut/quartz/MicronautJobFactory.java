@@ -47,13 +47,12 @@ public class MicronautJobFactory implements JobFactory {
                     "Producing instance of Job '" + jobDetail.getKey() +
                         "', class=" + jobClass.getName());
             }
-            return beanContext.createBean(jobClass);
+            return beanContext.getBean(jobClass);
         } catch (Exception e) {
             SchedulerException se = new SchedulerException(
                 "Problem instantiating class '"
                     + jobDetail.getJobClass().getName() + "'", e);
             throw se;
         }
-
     }
 }

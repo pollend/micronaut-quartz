@@ -1,7 +1,7 @@
 introduction:
   title: Introduction
   releaseHistory: Release History
-quickStart:
-  title: Quick Start
-
+quickStart: Quartz Quick Start
+config: Configuring the Quartz Scheduler
+jobSchedulerProducer: Job Scheduler with @QuartzSchedule
 
