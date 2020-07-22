@@ -15,12 +15,8 @@ snippet::io.micronaut.quartz.docs.quickstart.MessageJob[tags="imports,clazz", pr
 <2> The Quartz http://www.quartz-scheduler.org/documentation/2.4.0-SNAPSHOT/cookbook/DefineJobWithData.html[Job] interface.
 
 At compile time Micronaut will produce an implementation of the Job. An instance of the bean
-will be retrieved when Quartz builds the job.
+will be retrieved when Quartz schedules the job. The Job instance can be triggered with the standard
+Quartz scheduler. This can be retrieved from the link:{apimicronaut}context/ApplicationContext.html[ApplicationContext]:
 
-
-=== Creating a Job Scheduling Consumer with @QuartzSchedu
-
-
-include::{includedir}configurationProperties/io.microanut.quartz.configuration.QuartzConfiguration.adoc[]
-include::{includedir}configurationProperties/io.microanut.quartz.configuration.QuartzClientConfiguration.adoc[]
-include::{includedir}configurationProperties/io.microanut.quartz.configuration.QuartzTriggerConfiguration.adoc[]
+snippet::io.micronaut.quartz.docs.quickstart.MessageJobSpec[tags="create_job", project-base="docs-examples/example]
+'

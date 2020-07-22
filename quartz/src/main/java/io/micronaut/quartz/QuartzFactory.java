@@ -55,13 +55,13 @@ public class QuartzFactory implements AutoCloseable {
     }
 
     /**
-     * create quartz {@link Scheduler}
+     * create quartz {@link Scheduler}.
      *
      * @param clientConfiguration client configuration
      * @param triggers            list of triggers to start up initially with scheduler
      * @param jobFactory          factory for job
      * @return scheduler
-     * @throws SchedulerException
+     * @throws SchedulerException file on misconfigured scheduler
      */
     @EachBean(QuartzClientConfiguration.class)
     public Scheduler scheduler(

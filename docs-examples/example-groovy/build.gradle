@@ -1,12 +1,26 @@
+plugins {
+    id "groovy"
+}
+
 dependencies {
+    testCompile project(":quartz")
+    testCompile "io.micronaut:micronaut-inject"
+    testCompileOnly "io.micronaut:micronaut-inject-groovy"
+
     testImplementation("org.spockframework:spock-core:${spockVersion}") {
         exclude module:'groovy-all'
     }
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
-
-    annotationProcessor "io.micronaut:micronaut-inject-groovy"
-    testCompile project(":quartz")
-    testCompile "io.micronaut:micronaut-inject"
     testImplementation "io.micronaut:micronaut-inject-groovy"
-    testImplementation "io.micronaut:micronaut-inject-java-test"
+}
+tasks.withType(Test) {
+    useJUnitPlatform()
+
+    jvmArgs '-Duser.country=US'
+    jvmArgs '-Duser.language=en'
+    failFast = true
+}
+
+tasks.withType(GroovyCompile) {
+    groovyOptions.forkOptions.jvmArgs.add('-Dgroovy.parameters=true')
 }

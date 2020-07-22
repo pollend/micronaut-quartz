@@ -15,7 +15,6 @@
  */
 package io.micronaut.quartz.annotation;
 
-import io.micronaut.aop.Introduction;
 import io.micronaut.core.bind.annotation.Bindable;
 import org.quartz.Job;
 
@@ -50,7 +49,6 @@ public @interface ScheduleOn {
     boolean durability() default false;
 
     /**
-     *
      * @return Set job status for {@link org.quartz.JobDetail#requestsRecovery()}.
      */
     boolean recoverable() default false;
@@ -59,6 +57,4 @@ public @interface ScheduleOn {
      * @return Set job status for {@link org.quartz.JobDetail#getDescription()}.
      */
     String description() default "";
-
-
 }

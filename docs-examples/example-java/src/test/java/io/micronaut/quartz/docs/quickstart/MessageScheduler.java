@@ -11,6 +11,6 @@ import org.quartz.JobKey;
 @QuartzSchedule()
 public interface MessageScheduler {
     @ScheduleOn(MessageJob.class)
-    void sendMessage(JobKey key, @QuartzKey("message") String message);
+    void sendMessage(@QuartzKey("message") String message);
 }
 // end::clazz[]

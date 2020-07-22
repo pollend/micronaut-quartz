@@ -56,7 +56,7 @@ public class QuartzTriggerConfiguration {
         this.target = target;
     }
 
-    public static JobBuilder createJobBuilder(){
+    public static JobBuilder createJobBuilder() {
         return JobBuilder.newJob();
     }
 
