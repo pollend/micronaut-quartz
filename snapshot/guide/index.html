@@ -1,0 +1,609 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Micronaut Quartz</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+    <link rel="stylesheet" href="../css/custom.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <link rel="stylesheet" href="../css/highlight/agate.css">
+    <script src="../js/highlight.pack.js"></script>
+    <script src="../js/guide.js"></script>
+    <script src="../js/multi-language-sample.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../css/multi-language-sample.css"/>
+    <script src="../js/docs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
+    <script type="text/javascript">
+        function addJsClass(el) {
+            var classes = document.body.className.split(" ");
+            classes.push("js");
+            document.body.className = classes.join(" ");
+        }
+    </script>
+
+</head>
+
+<body class="body" id="docs" onload="addJsClass();" onhashchange="highlightMenu()">
+
+<div id="table-of-content-nav-link" class="desktop">
+    <a id="theme-switcher" title="Switch to dark theme" href="javascript:switchTheme(true)"><i class="fa fa-moon-o"></i></a>
+    <a title="Collapse/Open Table of contents" title="Hide Table of Contents" href="javascript:hideTableOfContents();" class="button">[ + ]</a>
+</div>
+
+<div id="main">
+    <div id="navigation" class="no-print">
+        <div class="navTitle">
+            <span id="logo"><a href="http://micronaut.io" title="Go to Micronaut Website"><img src="../img/micronaut-logo-white.svg" alt="Micronaut"/></a></span>
+        </div>
+        <div class="navLinks">
+            <ul>
+                    <li><div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)" class="desktop">
+                            <a href="../guide/index.html" class="button">Table of contents</a>
+                            <div id="nav-summary-childs" style="display:none;">
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#quickStart"><strong>2</strong><span>Quartz Quick Start</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#config"><strong>3</strong><span>Configuring the Quartz Scheduler</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#jobSchedulerProducer"><strong>4</strong><span>Job Scheduler with @QuartzSchedule</span></a></div>
+                                
+                            </div>
+                        </div>
+                    </li>
+
+                <li id="table-of-content-nav-link-mobile" class="mobile">
+                    <a title="Scroll to Table of contents" href="javascript:scrollToTop();" class="button">Toc</a>
+                </li>
+                <li class="desktop">
+                    <a title="Go to API documentation" href="../api/index.html" class="button">API Reference</a>
+                </li>
+                <li class="mobile">
+                    <a title="Go to API documentation" href="../api/index.html" class="button">API</a>
+                </li>
+                <li class="desktop">
+                    <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Configuration Reference</a>
+                </li>
+                <li class="mobile">
+                    <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Conf</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    
+    <div id="table-of-content">
+        <div class="toc-content">
+
+        <h2>Table of Contents</h2>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-introduction"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+        
+        <div class="toc-item" style="margin-left:10px" id="toc-item-releaseHistory"><a href="#releaseHistory"><strong>1.1</strong><span>Release History</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-quickStart"><a href="#quickStart"><strong>2</strong><span>Quartz Quick Start</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-config"><a href="#config"><strong>3</strong><span>Configuring the Quartz Scheduler</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-jobSchedulerProducer"><a href="#jobSchedulerProducer"><strong>4</strong><span>Job Scheduler with @QuartzSchedule</span></a></div>
+        
+        </div>
+    </div>
+    
+    <div class="docs-content">
+    <div class="project">
+        <h1>Micronaut Quartz</h1>
+        <p></p>
+        <p>Integration between Micronaut and Quartz</p>
+        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option value='https://pollend.github.io/micronaut-quartz/snapshot/guide/index.html'>SNAPSHOT</option></select></p>
+    </div>
+    
+<h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/pollend/micronaut-quartz/edit/master/src/main/docs/guide/introduction.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>This project add integration between Micronaut and <a href="http://www.quartz-scheduler.org/">Quartz</a>.</p>
+</div>
+
+<h2 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>1.1 Release History</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/pollend/micronaut-quartz/edit/master/src/main/docs/guide/introduction/releaseHistory.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="sect3">
+<h4 id="_1_0_0">1.0.0</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>XXX</p>
+</li>
+</ul>
+</div>
+</div>
+
+<h1 id="quickStart"><a class="anchor" href="#quickStart"></a>2 Quartz Quick Start</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/pollend/micronaut-quartz/edit/master/src/main/docs/guide/quickStart.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>To add supprt for Quartz to an existing project, you should first add the Micronaut Quartz configuration
+to your build build configuration. For example</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.pollend.quartz:micronaut-quartz")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.pollend.quartz&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-quartz&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="sect1">
+<h2 id="_creating_a_quartz_job_with_quartzjob">Creating a Quartz Job with @QuartzJob</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To create a Job in Quartz, a job has to  implements the <code>Job</code>
+interface and annotated with <code>@QuartzJob</code>.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.pollend.quartz.annotation.QuartzJob;
+import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+
+@QuartzJob <b class="conum">(1)</b>
+@Singleton
+public class MessageJob implements Job { <b class="conum">(2)</b>
+
+    List&lt;String&gt; messages = Collections.synchronizedList(new ArrayList&lt;&gt;());
+    @Override
+    public void execute(JobExecutionContext context)  {
+        JobDataMap map = context.getJobDetail().getJobDataMap();
+        messages.add(map.getString("message"));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.pollend.quartz.annotation.QuartzJob
+import org.quartz.Job
+import org.quartz.JobDataMap
+import org.quartz.JobExecutionContext
+import org.quartz.JobExecutionException
+import javax.inject.Singleton
+
+@QuartzJob <b class="conum">(1)</b>
+@Singleton
+class MessageJob implements Job { <b class="conum">(2)</b>
+    public List&lt;String&gt; messages = Collections.synchronizedList(new ArrayList&lt;&gt;())
+    @Override
+    void execute(JobExecutionContext context) throws JobExecutionException {
+        JobDataMap map = context.jobDetail.jobDataMap;
+        messages.add(map.getString("message"));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.pollend.quartz.annotation.QuartzJob
+import org.quartz.Job
+import org.quartz.JobExecutionContext
+import javax.inject.Singleton
+
+@QuartzJob <b class="conum">(1)</b>
+@Singleton
+class MessageJob : Job { <b class="conum">(2)</b>
+    val messages: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList());
+    override fun execute(context: JobExecutionContext?) {
+        val map = context!!.jobDetail.jobDataMap
+        messages.add(map.getString("message"));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="../api/io/micronaut/io/pollend/quartz/annotation/QuartzJob.html">@QuartzJob</a> annotation used to designate a Quartz Job that will be used by Micronaut.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The Quartz <a href="http://www.quartz-scheduler.org/documentation/2.4.0-SNAPSHOT/cookbook/DefineJobWithData.html">Job</a> interface.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>At compile time Micronaut will produce an implementation of the Job. An instance of the bean
+will be retrieved when Quartz schedules the job. The Job instance can be triggered with the standard
+Quartz scheduler. This can be retrieved from the <a href="{apimicronaut}context/ApplicationContext.html">ApplicationContext</a>:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Scheduler scheduler = ctx.getBean(Scheduler.class);
+scheduler.scheduleJob(JobBuilder.newJob(MessageJob.class)
+    .setJobData(new JobDataMap(new HashMap&lt;String, Object&gt;() {{
+        put("message", "My Message");
+    }})).build(), TriggerBuilder.newTrigger().startNow().build());</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">Scheduler scheduler = ctx.getBean(Scheduler.class)
+scheduler.scheduleJob(JobBuilder.newJob(MessageJob.class)
+    .setJobData(new JobDataMap([
+        "message": "My Message"
+    ])).build(), TriggerBuilder.newTrigger().startNow().build())</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">val scheduler = ctx.getBean(Scheduler::class.java)
+scheduler.scheduleJob(JobBuilder.newJob(MessageJob::class.java).setJobData(
+    JobDataMap(mutableMapOf(
+        "message" to "My Message"
+    ))
+).build(), TriggerBuilder.newTrigger().startNow().build())</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>'</p>
+</div>
+</div>
+</div>
+
+<h1 id="config"><a class="anchor" href="#config"></a>3 Configuring the Quartz Scheduler</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/pollend/micronaut-quartz/edit/master/src/main/docs/guide/config.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The properties that can be converted from the string values in a configuration file can be configured directly.</p>
+</div>
+<a id="io.pollend.quartz.configuration.QuartzClientConfiguration" href="#io.pollend.quartz.configuration.QuartzClientConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/io/pollend/quartz/configuration/QuartzClientConfiguration.html">QuartzClientConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.clients.*.config-file</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the config file.</p></td>
+</tr>
+</tbody>
+</table>
+<a id="io.pollend.quartz.configuration.QuartzConfiguration" href="#io.pollend.quartz.configuration.QuartzConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. Configuration Properties for <a href="../api/io/micronaut/io/pollend/quartz/configuration/QuartzConfiguration.html">QuartzConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.calenders</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">calendars for scheduler.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enable quartz scheduler.</p></td>
+</tr>
+</tbody>
+</table>
+<a id="io.pollend.quartz.configuration.QuartzTriggerConfiguration" href="#io.pollend.quartz.configuration.QuartzTriggerConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/io/pollend/quartz/configuration/QuartzTriggerConfiguration.html">QuartzTriggerConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].identity</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].priority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].modified-by-calendar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].start-at</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Date</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].end-at</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Date</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].schedule</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.quartz.ScheduleBuilder</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].for-job</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.quartz.JobKey</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].job.new-job</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Class</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].job.identity</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].job.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].job.of-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Class</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].job.request-recovery</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].job.store-durably</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].client</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id for scheduler</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].target</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">job used with trigger</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].cron</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set a cron tab that triggers for {@link org.quartz.Job}</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quartz.triggers[*].data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">set data for job detail</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect1">
+<h2 id="_scheduler_configuration">Scheduler Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>the <code>config-file</code> is the configuration for the associated scheduler. One or more clients can be configured as follows:</p>
+</div>
+<div class="paragraph">
+<p>For Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">quarts:
+  enabled: true
+  clients:
+    default:
+      config-file: "classpath:quartz.properties"
+    two:
+      config-file: "classpath:another.properties"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A configuration reference is available from the <a href="http://www.quartz-scheduler.org/documentation/quartz-2.2.2/configuration/">Quartz Configuration</a>.
+A sample <code>quartz.properties</code> can be also found in the <a href="http://www.quartz-scheduler.org/documentation/2.4.0-SNAPSHOT/quick-start-guide.html">quickstart</a>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">org.quartz.scheduler.instanceName = MyScheduler
+org.quartz.threadPool.threadCount = 3
+org.quartz.jobStore.class = org.quartz.simpl.RAMJobStore</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_schedules_and_triggers">Schedules and Triggers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Schedules and triggers can be configured for daily or initial jobs with the start of the application.</p>
+</div>
+<div class="paragraph">
+<p>For Example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">quartz:
+  enabled: true
+  clients:
+    default:
+      config-file: "classpath:quartz.properties"
+  triggers:
+    - start-now: true
+      description: "initial trigger"
+      target: "io.company.job1"
+    - start-now: true
+      description: "job at 2 every day"
+      target: "io.company.job2"
+      cron:  0 2 * * *</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_calendar">Calendar</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TODO: setup calendar configuration</p>
+</div>
+</div>
+</div>
+
+<h1 id="jobSchedulerProducer"><a class="anchor" href="#jobSchedulerProducer"></a>4 Job Scheduler with @QuartzSchedule</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/pollend/micronaut-quartz/edit/master/src/main/docs/guide/jobSchedulerProducer.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>Jobs can be triggered off of an <code>@QuartzSchdule</code> (defined by the <a href="../api/io/micronaut/io/pollend/quartz/intercept/QuartzScheduleIntroductionAdvice.html">QuartzScheduleIntroductionAdvice</a>).</p>
+</div>
+<div class="paragraph">
+<p>The interface has to be marked by <code>@QuartzSchedule</code> and each job trigger is defined by an associated method
+annotated with <code>@ScheduleOn</code>.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.pollend.quartz.annotation.QuartzKey;
+import io.pollend.quartz.annotation.ScheduleOn;
+import org.quartz.JobKey;
+import org.quartz.Trigger;
+
+public interface SampleScheduler {
+    @ScheduleOn(MessageJob1.class)
+    void messageWithoutKey(@QuartzKey("message") String value);
+
+    @ScheduleOn(MessageJob1.class)
+    void messageJobWithKey(JobKey key, @QuartzKey("message") String value);
+
+    @ScheduleOn(MessageJob1.class)
+    void messageJobWithTrigger(JobKey key, Trigger trigger, @QuartzKey("message") String value);
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.pollend.quartz.annotation.QuartzKey
+import io.pollend.quartz.annotation.QuartzSchedule
+import io.pollend.quartz.annotation.ScheduleOn
+import org.quartz.JobKey
+import org.quartz.Trigger
+
+@QuartzSchedule
+interface SampleScheduler {
+    @ScheduleOn(MessageJob1.class)
+    void messageWithoutKey(@QuartzKey("message") String value);
+
+    @ScheduleOn(MessageJob1.class)
+    void messageJobWithKey(JobKey key, @QuartzKey("message") String value)
+
+    @ScheduleOn(MessageJob1.class)
+    void messageJobWithTrigger(JobKey key, Trigger trigger, @QuartzKey("message") String value)
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.pollend.quartz.annotation.QuartzKey
+import io.pollend.quartz.annotation.ScheduleOn
+import org.quartz.JobKey
+import org.quartz.Trigger
+
+interface SampleScheduler {
+
+    @ScheduleOn(MessageJob1::class)
+    fun messageWithoutKey(@QuartzKey("message") value: String?)
+
+    @ScheduleOn(MessageJob1::class)
+    fun messageJobWithKey(key: JobKey?, @QuartzKey("message") value: String?)
+
+    @ScheduleOn(MessageJob1::class)
+    fun messageJobWithTrigger(key: JobKey?, trigger: Trigger?, @QuartzKey("message") value: String?)
+}</code></pre>
+</div>
+</div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
