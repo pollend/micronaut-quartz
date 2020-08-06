@@ -1,27 +1,22 @@
 # Micronaut Quartz
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.micronaut.xxx/micronaut-xxx.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.micronaut.xxx%22%20AND%20a:%22micronaut-xxx%22)
-[![Build Status](https://github.com/micronaut-projects/micronaut-xxx/workflows/Java%20CI/badge.svg)](https://github.com/micronaut-projects/micronaut-xxx/actions)
+[ ![Download](https://api.bintray.com/packages/pollend/maven/micronaut-quartz/images/download.svg) ](https://bintray.com/pollend/maven/micronaut-quartz/_latestVersion)
 
 Adds support for the Quartz Scheduler to a Micronaut Project.
 
 ## Documentation
 
-See the [Documentation](https://micronaut-projects.github.io/micronaut-xxx/latest/guide/) for more information. 
-
-See the [Snapshot Documentation](https://micronaut-projects.github.io/micronaut-xxx/snapshot/guide/) for the current development docs.
+See the [Documentation](https://pollend.github.io/micronaut-quartz/snapshot) for more information. 
 
 ## Examples
 
-Examples can be found in the [examples](https://github.com/micronaut-projects/micronaut-xxx/tree/master/examples) directory.
+Examples can be found in the [examples](https://github.com/pollend/micronaut-quartz/tree/master/docs-examples) directory.
 
 ## Snapshots and Releases
 
-Snaphots are automatically published to [JFrog OSS](https://oss.jfrog.org/artifactory/oss-snapshot-local/) using [Github Actions](https://github.com/micronaut-projects/micronaut-xxx/actions).
+Snaphots are automatically published to [Bintray](https://bintray.com/pollend/maven/micronaut-quartz) using [Github Actions](https://github.com/pollend/micronaut-quartz/actions).
 
 See the documentation in the [Micronaut Docs](https://docs.micronaut.io/latest/guide/index.html#usingsnapshots) for how to configure your build to use snapshots.
-
-Releases are published to JCenter and Maven Central via [Github Actions](https://github.com/micronaut-projects/micronaut-xxx/actions).
 
 Releases are completely automated. To perform a release use the following steps:
 
