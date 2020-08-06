@@ -36,7 +36,7 @@ class QuartzClientConfigurationSpec extends Specification{
             "quartz.clients.two.config-file"    : "classpath:example.properties",
             "quartz.triggers[0].start-now"      : true,
             "quartz.triggers[0].description"    : "description of the trigger",
-            "quartz.triggers[1].target"         : "io.micronaut.quartz.jobs.Job1"
+            "quartz.triggers[1].target"         : "io.pollend.quartz.jobs.Job1"
         ])
 
         when:

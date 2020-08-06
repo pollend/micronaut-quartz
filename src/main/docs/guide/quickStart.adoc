@@ -2,21 +2,21 @@ To add supprt for Quartz to an existing project, you should first add the Micron
 to your build build configuration. For example
 
 
-dependency:micronaut-quartz[groupId="io.micronaut.quartz"]
+dependency:micronaut-quartz[groupId="io.pollend.quartz"]
 
 == Creating a Quartz Job with @QuartzJob
 
 To create a Job in Quartz, a job has to  implements the `Job`
 interface and annotated with `@QuartzJob`.
 
-snippet::io.micronaut.quartz.docs.quickstart.MessageJob[tags="imports,clazz", project-base="docs-examples/example]
+snippet::io.pollend.quartz.docs.quickstart.MessageJob[tags="imports,clazz", project-base="docs-examples/example]
 
-<1> The ann:io.micronaut.quartz.annotation.QuartzJob[] annotation used to designate a Quartz Job that will be used by Micronaut.
+<1> The ann:io.pollend.quartz.annotation.QuartzJob[] annotation used to designate a Quartz Job that will be used by Micronaut.
 <2> The Quartz http://www.quartz-scheduler.org/documentation/2.4.0-SNAPSHOT/cookbook/DefineJobWithData.html[Job] interface.
 
 At compile time Micronaut will produce an implementation of the Job. An instance of the bean
 will be retrieved when Quartz schedules the job. The Job instance can be triggered with the standard
 Quartz scheduler. This can be retrieved from the link:{apimicronaut}context/ApplicationContext.html[ApplicationContext]:
 
-snippet::io.micronaut.quartz.docs.quickstart.MessageJobSpec[tags="create_job", project-base="docs-examples/example]
+snippet::io.pollend.quartz.docs.quickstart.MessageJobSpec[tags="create_job", project-base="docs-examples/example]
 '

@@ -1,9 +1,9 @@
 
 The properties that can be converted from the string values in a configuration file can be configured directly.
 
-include::{includedir}configurationProperties/io.micronaut.quartz.configuration.QuartzClientConfiguration.adoc[]
-include::{includedir}configurationProperties/io.micronaut.quartz.configuration.QuartzConfiguration.adoc[]
-include::{includedir}configurationProperties/io.micronaut.quartz.configuration.QuartzTriggerConfiguration.adoc[]
+include::{includedir}configurationProperties/io.pollend.quartz.configuration.QuartzClientConfiguration.adoc[]
+include::{includedir}configurationProperties/io.pollend.quartz.configuration.QuartzConfiguration.adoc[]
+include::{includedir}configurationProperties/io.pollend.quartz.configuration.QuartzTriggerConfiguration.adoc[]
 
 
 == Scheduler Configuration

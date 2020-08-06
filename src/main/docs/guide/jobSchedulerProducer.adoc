@@ -1,8 +1,8 @@
 
-Jobs can be triggered off of an `@QuartzSchdule` (defined by the api:io.micronaut.quartz.intercept.QuartzScheduleIntroductionAdvice[]).
+Jobs can be triggered off of an `@QuartzSchdule` (defined by the api:io.pollend.quartz.intercept.QuartzScheduleIntroductionAdvice[]).
 
 
 The interface has to be marked by `@QuartzSchedule` and each job trigger is defined by an associated method
 annotated with `@ScheduleOn`.
 
-snippet::io.micronaut.quartz.docs.scheduler.SampleScheduler[tags="imports,clazz", project-base="docs-examples/example]
+snippet::io.pollend.quartz.docs.scheduler.SampleScheduler[tags="imports,clazz", project-base="docs-examples/example]
