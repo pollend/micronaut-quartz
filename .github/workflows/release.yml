@@ -42,19 +42,6 @@ jobs:
           BRANCH: gh-pages
           FOLDER: build/docs
           VERSION: ${{ steps.release_version.outputs.release_version }}
-      - name: Checkout micronaut-core
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          repository: micronaut-projects/micronaut-core
-          ref: ${{ env.githubCoreBranch }}
-          path: micronaut-core # Must be micronaut-core
-        continue-on-error: true
-      - name: Update BOM
-        uses: micronaut-projects/github-actions/update-bom@master
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-        continue-on-error: true
       - name: Run post-release
         if: success()
         uses: micronaut-projects/github-actions/post-release@master
