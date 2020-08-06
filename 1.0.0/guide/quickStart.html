@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script src="/cdn-cgi/apps/head/3cOPSgo5Omz84ycX7CvigfX4cpw.js"></script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-82213539-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-82213539-2');
+    </script>
+    <title>2 Quartz Quick Start 1.0.0</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <div class="navTitle">
+        
+        Micronaut Quartz
+    </div>
+    <div class="navLinks">
+        <ul>
+            <li>
+                <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                    <a href="../guide/index.html" class="button">Table of contents</a>
+
+                    <div id="nav-summary-childs" style="display:none;">
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/quickStart.html"><strong>2</strong><span>Quartz Quick Start</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/config.html"><strong>3</strong><span>Configuring the Quartz Scheduler</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/jobSchedulerProducer.html"><strong>4</strong><span>Job Scheduler with @QuartzSchedule</span></a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </li>
+            <li class="separator selected">
+                <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/config.html"><strong>3</strong><span>Configuring the Quartz Scheduler</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>2 Quartz Quick Start</h1>
+
+                    <p><strong>Version:</strong> 1.0.0</p>
+                </div>
+
+                
+
+                
+<h1 id="quickStart"><a class="anchor" href="#quickStart"></a>2 Quartz Quick Start</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/pollend/micronaut-quartz/edit/master/src/main/docs/guide/quickStart.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>To add supprt for Quartz to an existing project, you should first add the Micronaut Quartz configuration
+to your build build configuration. For example</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.pollend.quartz:micronaut-quartz")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.pollend.quartz&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-quartz&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="sect1">
+<h2 id="_creating_a_quartz_job_with_quartzjob">Creating a Quartz Job with @QuartzJob</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To create a Job in Quartz, a job has to  implements the <code>Job</code>
+interface and annotated with <code>@QuartzJob</code>.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.pollend.quartz.annotation.QuartzJob;
+import org.quartz.Job;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+
+@QuartzJob <b class="conum">(1)</b>
+@Singleton
+public class MessageJob implements Job { <b class="conum">(2)</b>
+
+    List&lt;String&gt; messages = Collections.synchronizedList(new ArrayList&lt;&gt;());
+    @Override
+    public void execute(JobExecutionContext context)  {
+        JobDataMap map = context.getJobDetail().getJobDataMap();
+        messages.add(map.getString("message"));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">import io.pollend.quartz.annotation.QuartzJob
+import org.quartz.Job
+import org.quartz.JobDataMap
+import org.quartz.JobExecutionContext
+import org.quartz.JobExecutionException
+import javax.inject.Singleton
+
+@QuartzJob <b class="conum">(1)</b>
+@Singleton
+class MessageJob implements Job { <b class="conum">(2)</b>
+    public List&lt;String&gt; messages = Collections.synchronizedList(new ArrayList&lt;&gt;())
+    @Override
+    void execute(JobExecutionContext context) throws JobExecutionException {
+        JobDataMap map = context.jobDetail.jobDataMap;
+        messages.add(map.getString("message"));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">import io.pollend.quartz.annotation.QuartzJob
+import org.quartz.Job
+import org.quartz.JobExecutionContext
+import javax.inject.Singleton
+
+@QuartzJob <b class="conum">(1)</b>
+@Singleton
+class MessageJob : Job { <b class="conum">(2)</b>
+    val messages: MutableList&lt;String&gt; = Collections.synchronizedList(ArrayList());
+    override fun execute(context: JobExecutionContext?) {
+        val map = context!!.jobDetail.jobDataMap
+        messages.add(map.getString("message"));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="../api/io/micronaut/io/pollend/quartz/annotation/QuartzJob.html">@QuartzJob</a> annotation used to designate a Quartz Job that will be used by Micronaut.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The Quartz <a href="http://www.quartz-scheduler.org/documentation/2.4.0-SNAPSHOT/cookbook/DefineJobWithData.html">Job</a> interface.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>At compile time Micronaut will produce an implementation of the Job. An instance of the bean
+will be retrieved when Quartz schedules the job. The Job instance can be triggered with the standard
+Quartz scheduler. This can be retrieved from the <a href="{apimicronaut}context/ApplicationContext.html">ApplicationContext</a>:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">Scheduler scheduler = ctx.getBean(Scheduler.class);
+scheduler.scheduleJob(JobBuilder.newJob(MessageJob.class)
+    .setJobData(new JobDataMap(new HashMap&lt;String, Object&gt;() {{
+        put("message", "My Message");
+    }})).build(), TriggerBuilder.newTrigger().startNow().build());</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-groovy" data-lang="groovy">Scheduler scheduler = ctx.getBean(Scheduler.class)
+scheduler.scheduleJob(JobBuilder.newJob(MessageJob.class)
+    .setJobData(new JobDataMap([
+        "message": "My Message"
+    ])).build(), TriggerBuilder.newTrigger().startNow().build())</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-kotlin" data-lang="kotlin">val scheduler = ctx.getBean(Scheduler::class.java)
+scheduler.scheduleJob(JobBuilder.newJob(MessageJob::class.java).setJobData(
+    JobDataMap(mutableMapOf(
+        "message" to "My Message"
+    ))
+).build(), TriggerBuilder.newTrigger().startNow().build())</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>'</p>
+</div>
+</div>
+</div>
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/config.html"><strong>3</strong><span>Configuring the Quartz Scheduler</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
