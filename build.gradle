@@ -20,7 +20,8 @@ subprojects { Project subproject ->
         return
     }
 
-    apply plugin: "io.micronaut.build.publishing"
+//    apply plugin: "io.micronaut.build.publishing"
+    apply from:"$rootDir/gradle/publish.gradle"
     dependencies {
         annotationProcessor "io.micronaut:micronaut-inject-java"
         if (subproject.name != 'cache-tck') {
