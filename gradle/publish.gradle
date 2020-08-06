@@ -68,15 +68,15 @@ afterEvaluate {
 
     publishing {
 
-        repositories {
-            maven {
-                credentials {
-                    username = bintrayUser
-                    password = bintrayKey
-                }
-                url  "https://dl.bintray.com/pollend/maven"
-            }
-        }
+//        repositories {
+//            maven {
+//                credentials {
+//                    username = bintrayUser
+//                    password = bintrayKey
+//                }
+//                url  "https://api.bintray.com/maven/pollend/maven/micronaut-quartz/;publish=1"
+//            }
+//        }
 
         publications {
             if (project.extensions.findByType(PublishingExtension).publications.empty) {
@@ -227,9 +227,9 @@ bintray {
     publications = ['maven']
     publish = true
     pkg {
-        repo = 'core-releases-local'
+        repo = 'maven'
+        name = "micronaut-quartz"
         userOrg = 'pollend'
-        name = project.name
         desc = "${project.title} - ${project.projectDesc} - ${project.name} module".toString()
         websiteUrl = projectUrl
         issueTrackerUrl = "https://github.com/$githubSlug/issues"
@@ -239,8 +239,8 @@ bintray {
         version {
             name = project.version
             gpg {
-                sign = true
-                passphrase = System.getenv("SIGNING_PASSPHRASE") ?: project.hasProperty("signingPassphrase") ? project.signingPassphrase : ''
+                sign = false
+//                passphrase = System.getenv("SIGNING_PASSPHRASE") ?: project.hasProperty("signingPassphrase") ? project.signingPassphrase : ''
             }
         }
     }
