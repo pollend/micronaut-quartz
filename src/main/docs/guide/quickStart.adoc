@@ -1,4 +1,4 @@
-To add supprt for Quartz to an existing project, you should first add the Micronaut Quartz configuration
+To add support for Quartz to an existing project, you should first add the Micronaut Quartz configuration
 to your build build configuration. For example
 
 
@@ -6,7 +6,7 @@ dependency:micronaut-quartz[groupId="io.pollend.quartz"]
 
 == Creating a Quartz Job with @QuartzJob
 
-To create a Job in Quartz, a job has to  implements the `Job`
+To create a Job in Quartz, a job has to implements the `Job`
 interface and annotated with `@QuartzJob`.
 
 snippet::io.pollend.quartz.docs.quickstart.MessageJob[tags="imports,clazz", project-base="docs-examples/example]
