@@ -12,9 +12,9 @@ dependencies {
     testCompile project(":quartz")
     testCompile "io.micronaut:micronaut-inject"
 
-    testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testCompileOnly "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-    testCompile 'org.awaitility:awaitility:4.0.3'
+    testCompileOnly 'org.awaitility:awaitility:4.0.3'
 }
 
 compileJava.options.compilerArgs += '-parameters'
